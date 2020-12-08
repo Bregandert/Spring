@@ -1,6 +1,7 @@
 package com.geekbrains.july.market.services;
 
 import com.geekbrains.july.market.entities.Product;
+import com.geekbrains.july.market.entities.dtos.ProductDto;
 import com.geekbrains.july.market.exceptions.ProductNotFoundException;
 import com.geekbrains.july.market.repositories.ProductsRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,7 +27,7 @@ public class ProductsService {
     }
 
     public Product findById(Long id) {
-        return productsRepository.findById(id).orElseThrow(() -> new ProductNotFoundException("Can't found product with id = " + id));
+        return productsRepository.findById(id).orElseThrow(() -> new ProductNotFoundException("Can't found with id = " + id));
     }
 
     public List<Product> findAll() {
@@ -38,5 +39,21 @@ public class ProductsService {
             page = 1;
         }
         return productsRepository.findAll(spec, PageRequest.of(page - 1, 10));
+    }
+
+    public void deleteAll() {
+        productsRepository.deleteAll();
+    }
+
+    public void deleteById(Long id) {
+        productsRepository.deleteById(id);
+    }
+
+    public boolean existsById(Long id) {
+        return productsRepository.existsById(id);
+    }
+
+    public List<ProductDto> getDtoData() {
+        return productsRepository.findAllBy();
     }
 }
